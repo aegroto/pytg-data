@@ -20,36 +20,36 @@ class DataManager(Manager):
     ######################
 
     def create_data(self, table, object_id, module="data"):
-        return self.save_data(table, object_id, self.load_data(table, "__default"), module)
+        return self.save_data(table, object_id, self.load_data(table, "__default", module=module), module)
 
     def load_data(self, table, object_id, module="data"):
         module_folder = ModulesLoader.get_module_content_folder(module)
 
-        return yaml.safe_load(open("{}/{}/{}.yaml".format(module_folder, table, object_id), "r"))
+        return yaml.safe_load(open("{}/data/{}/{}.yaml".format(module_folder, table, object_id), "r"))
 
     def save_data(self, table, object_id, data, module="data"):
         module_folder = ModulesLoader.get_module_content_folder(module)
 
-        yaml.safe_dump(data, open("{}/{}/{}.yaml".format(module_folder, table, object_id), "w"))
+        yaml.safe_dump(data, open("{}/data/{}/{}.yaml".format(module_folder, table, object_id), "w"))
 
         return data
 
     def delete_data(self, table, object_id, module="data"):
         module_folder = ModulesLoader.get_module_content_folder(module)
 
-        os.remove("{}//{}/{}.yaml".format(module_folder, table, object_id))
+        os.remove("{}/data/{}/{}.yaml".format(module_folder, table, object_id))
 
     def has_data(self, table, object_id, module="data"):
         module_folder = ModulesLoader.get_module_content_folder(module)
 
-        return os.path.exists("{}/{}/{}.yaml".format(module_folder, table, object_id))
+        return os.path.exists("{}/data/{}/{}.yaml".format(module_folder, table, object_id))
 
     def load_table_entries(self, table, module="data"):
         module_folder = ModulesLoader.get_module_content_folder(module)
 
         entries = []
 
-        files = os.listdir("{}/{}".format(module_folder, table))
+        files = os.listdir("{}/data/{}".format(module_folder, table))
         files.remove("__default.yaml")
 
         for f in files:
@@ -64,7 +64,7 @@ class DataManager(Manager):
     def find_entry_by_field(self, table, field, value, module="data"):
         module_folder = ModulesLoader.get_module_content_folder(module)
 
-        files = os.listdir("{}/{}".format(module_folder, table))
+        files = os.listdir("{}/data/{}".format(module_folder, table))
         files.remove("__default.yaml")
 
         for f in files:
