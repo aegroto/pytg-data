@@ -1,23 +1,9 @@
 import yaml, os
 
-from modules.pytg.Manager import Manager
-from modules.pytg.load import get_module_content_folder
+from pytg.Manager import Manager
+from pytg.load import get_module_content_folder
 
 class DataManager(Manager):
-    @staticmethod
-    def initialize():
-        DataManager.__instance = DataManager()
-
-        return
-
-    @staticmethod
-    def load():
-        return DataManager.__instance
-
-    ######################
-    # Database interface #
-    ######################
-
     def create_data(self, module, table, object_id):
         return self.save_data(module, table, object_id, self.load_data(module, table, "__default"))
 
